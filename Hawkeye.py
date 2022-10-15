@@ -69,7 +69,7 @@ class Hawkeye:
             return url, '无法访问', '无法访问'
 
     # 重要页面监控
-    def monitor(self):
+    def monitor(self, range):
         for url in self.url_list:
             data = self.get_page(url)
             url = data[0]
@@ -80,7 +80,9 @@ class Hawkeye:
                 res = '[{}]{}|{}|无法访问'.format(now, url, title)
                 print('[{}]{}|{}|{}'.format(self.color(now, 'gray'), self.color(url, 'blue'), self.color(title, 'gray'), self.color('无法访问', 'yellow')))
             else:
-                if len(content) == self.url_length_dict[url][0]:
+                length_change_tmp = len(content) - self.url_length_dict[url][0]
+                length_change = length_change_tmp if length_change_tmp >= 0 else -length_change_tmp
+                if length_change <= range:
                     if title == self.url_length_dict[url][1]:
                         res = '[{}]{}|{}|页面正常'.format(now, url, title)
                         print('[{}]{}|{}|{}'.format(self.color(now, 'gray'), self.color(url, 'blue'), self.color(title, 'gray'), self.color('页面正常', 'green')))
@@ -88,7 +90,7 @@ class Hawkeye:
                         res = '[{}]{}|{}|标题发生变化：{}'.format(now, url, title, self.url_length_dict[url][1])
                         print('[{}]{}|{}|{}：{}'.format(self.color(now, 'gray'), self.color(url, 'blue'), self.color(title, 'gray'), self.color('标题发生变化', 'red'), self.color(self.url_length_dict[url][1], 'red')))
                 else:
-                    res = '[{}]{}|{}|长度发生变化：{}'.format(now, url, title, self.url_length_dict[url][0] - len(content))
+                    res = '[{}]{}|{}|长度发生变化：{}'.format(now, url, title, length_change)
                     print('[{}]{}|{}|{}：{}'.format(self.color(now, 'gray'), self.color(url, 'blue'), self.color(title, 'gray'), self.color('长度发生变化', 'red'), self.color(self.url_length_dict[url][0] - len(content), 'red')))
             with open('重要页面监控日志_{}.txt'.format(str(datetime.datetime.now(pytz.timezone('PRC')).strftime('%Y_%m_%d'))), 'a') as f:
                 f.write(res + '\n')
@@ -202,6 +204,7 @@ powered by 说书人｜公众号：台下言书|https://github.com/heikanet/Hawk
     parser = argparse.ArgumentParser(description='[重保小助手]页面违规检测与重要页面持续监控')
     parser.add_argument("-monitor", action='store_true', help='对关键页面进行监控')
     parser.add_argument("--time", nargs=1, metavar='60', help='监控时间间隔，默认60秒')
+    parser.add_argument("--range", nargs=1, metavar='0', help='忽略x个字符内的变化，默认0个')
     parser.add_argument("-check", action='store_true', help='对目标网站进行爬虫并检测违规信息')
     parser.add_argument("--deep", nargs=1, metavar='5', help='爬虫的深度，默认5')
     parser.add_argument("--ua", nargs=1, metavar='baidu', help='user-agent，可选(pc,baidu,google,360,bing,sm,sogou)，默认使用百度蜘蛛')
@@ -215,6 +218,10 @@ powered by 说书人｜公众号：台下言书|https://github.com/heikanet/Hawk
         interval = int(args.time[0])
     else:
         interval = 60
+    if args.range:
+        range = int(args.range[0])
+    else:
+        range = 0
 
     if args.check:
         main.check(MaxDeep)
@@ -222,7 +229,7 @@ powered by 说书人｜公众号：台下言书|https://github.com/heikanet/Hawk
         print(main.color('获取所有页面原始信息中...请确保这个时候页面是正常的'.format(interval), 'yellow'))
         main.init_get_index()  # 初始化
         while True:
-            main.monitor()
+            main.monitor(range)
             now = str(datetime.datetime.now(pytz.timezone('PRC')).strftime('%Y-%m-%d %H:%M:%S'))
             print('[{}]{}'.format(main.color(now, 'gray'), main.color('休息{}秒...'.format(interval), 'yellow')))
             time.sleep(interval)
