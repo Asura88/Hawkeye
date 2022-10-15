@@ -10,3 +10,6 @@ optional arguments:
   --deep 5    爬虫的深度，默认5
   --ua baidu  user-agent，可选(pc,baidu,google,360,bing,sm,sogou)，默认使用百度蜘蛛
 ```
+
+## 其他介绍
+https://mp.weixin.qq.com/s/ppAoFj-fMb78tJIc7Ggz4A
