@@ -11,5 +11,18 @@ optional arguments:
   --ua baidu  user-agent，可选(pc,baidu,google,360,bing,sm,sogou)，默认使用百度蜘蛛
 ```
 
+## 安装&使用
+```
+# 安装依赖包
+pip install -r requirements.txt
+
+# 下载和安装依赖的浏览器
+playwright install --force chromium
+playwright install --force chrome
+
+# run
+python3 Hawkeye.py -h
+```
+
 ## 其他介绍
 https://mp.weixin.qq.com/s/ppAoFj-fMb78tJIc7Ggz4A
