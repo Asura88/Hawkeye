@@ -19,9 +19,9 @@ class Hawkeye:
         self.checked_url_list = []  # 本轮已经检测过的url，避免重复
         self.q = Queue(0)  # 创建队列
         try:
-            with open('urls.txt', 'r') as f:
+            with open('urls.txt', 'r', encoding='utf-8') as f:
                 self.url_list = [i for i in f.read().split('\n') if i != '']
-            with open('rules.txt', 'r') as f:
+            with open('rules.txt', 'r', encoding='utf-8') as f:
                 self.rule_list = [i for i in f.read().split('\n') if i != '']
         except:
             print('{}'.format(self.color('[error]请确保urls.txt（目标网站/页面的链接）和rules.txt（规则文件）位于本目录下', 'red')))
