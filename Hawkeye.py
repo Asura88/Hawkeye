@@ -32,19 +32,19 @@ class Hawkeye:
                            'bing': 'Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)', 'sm': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.81 YisouSpider/5.0 Safari/537.36', 'sogou': 'Sogou web spider/4.0(+http://www.sogou.com/docs/help/webmasters.htm#07)'}
 
     # 简单队列
-    def queue(self, MaxDeep):
+    def queue(self, MaxDeep, ua):
         for url in self.url_list:
             self.q.put(url)
         for i in range(MaxDeep):
             if not self.q.empty():
-                self.spider(self.q.get())
+                self.spider(self.q.get(), ua)
             else:
                 break
 
     # 初始化-重要页面标题和长度
-    def init_get_index(self):
+    def init_get_index(self, ua):
         for url in self.url_list:
-            res = self.get_page(url)
+            res = self.get_page(url, ua)
             if res[2] == '无法访问':
                 length = 0
                 title = res[1]
@@ -54,11 +54,11 @@ class Hawkeye:
             self.url_length_dict[url] = (length, title)
 
     # 无头浏览器访问web，支持渲染
-    def get_page(self, url):
+    def get_page(self, url, ua):
         try:
             with sync_playwright() as p:
                 browser = p.chromium.launch(headless=True)
-                browser.new_context(user_agent='Mozilla/5.0 (compatible; Baiduspider/2.0; +http://www.baidu.com/search/spider.html)')
+                browser.new_context(user_agent=ua)
                 page = browser.new_page()
                 page.goto(url, )
                 title = page.title()
@@ -69,9 +69,9 @@ class Hawkeye:
             return url, '无法访问', '无法访问'
 
     # 重要页面监控
-    def monitor(self, range):
+    def monitor(self, range, ua):
         for url in self.url_list:
-            data = self.get_page(url)
+            data = self.get_page(url, ua)
             url = data[0]
             title = data[1]
             content = data[2]
@@ -96,11 +96,11 @@ class Hawkeye:
                 f.write(res + '\n')
 
     # 暗链、敏感词检测
-    def check(self, MaxDeep):
-        self.queue(MaxDeep)
+    def check(self, MaxDeep, ua):
+        self.queue(MaxDeep, ua)
         for url in self.result_url_list:
             if url not in self.checked_url_list:
-                res = self.re_rule(self.get_page(url))
+                res = self.re_rule(self.get_page(url, ua))
                 if res != '':
                     with open('暗链敏感词命中.txt', 'a') as f:
                         f.write(res + '\n')
@@ -151,9 +151,9 @@ class Hawkeye:
                 pass
 
     # 爬虫
-    def spider(self, url):
+    def spider(self, url, ua):
         base_url = self.get_base_url(url)
-        data = self.get_page(url)
+        data = self.get_page(url, ua)
         res = data[2]
         self.re_rule(data)  # 爬虫返回的页面先做一次检测，减少重复请求
         self.checked_url_list.append(url)
@@ -222,14 +222,18 @@ powered by 说书人｜公众号：台下言书|https://github.com/heikanet/Hawk
         range = int(args.range[0])
     else:
         range = 0
+    if args.ua:
+        ua = main.user_agent[args.ua[0]]
+    else:
+        ua = main.user_agent['baidu']
 
     if args.check:
-        main.check(MaxDeep)
+        main.check(MaxDeep, ua)
     elif args.monitor:
         print(main.color('获取所有页面原始信息中...请确保这个时候页面是正常的'.format(interval), 'yellow'))
-        main.init_get_index()  # 初始化
+        main.init_get_index(ua)  # 初始化
         while True:
-            main.monitor(range)
+            main.monitor(range, ua)
             now = str(datetime.datetime.now(pytz.timezone('PRC')).strftime('%Y-%m-%d %H:%M:%S'))
             print('[{}]{}'.format(main.color(now, 'gray'), main.color('休息{}秒...'.format(interval), 'yellow')))
             time.sleep(interval)
