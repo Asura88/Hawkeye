@@ -90,7 +90,7 @@ class Hawkeye:
                         res = '[{}]{}|{}|标题发生变化：{}'.format(now, url, title, self.url_length_dict[url][1])
                         print('[{}]{}|{}|{}：{}'.format(self.color(now, 'gray'), self.color(url, 'blue'), self.color(title, 'gray'), self.color('标题发生变化', 'red'), self.color(self.url_length_dict[url][1], 'red')))
                 else:
-                    res = '[{}]{}|{}|长度发生变化：{}'.format(now, url, title, length_change)
+                    res = '[{}]{}|{}|长度发生变化：{}'.format(now, url, title, length_change).encode('utf-8', 'ignore').decode()
                     print('[{}]{}|{}|{}：{}'.format(self.color(now, 'gray'), self.color(url, 'blue'), self.color(title, 'gray'), self.color('长度发生变化', 'red'), self.color(self.url_length_dict[url][0] - len(content), 'red')))
             with open('重要页面监控日志_{}.txt'.format(str(datetime.datetime.now(pytz.timezone('PRC')).strftime('%Y_%m_%d'))), 'a') as f:
                 f.write(res + '\n')
