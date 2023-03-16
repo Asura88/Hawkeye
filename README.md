@@ -39,6 +39,7 @@ python3 Hawkeye.py -h
 
 - 2023-03-16
 > 感谢[@J1wa](https://github.com/moshe)反馈的一些小bug，已修复
+> 
 > 简单重构了一下，违规检测改成异步+多线程模式
 
 
