@@ -1,7 +1,7 @@
 # Hawkeye
 Hawkeye鹰眼web监测｜[重保小助手]｜网站违规检测｜暗链检测｜重要页面持续监控
 
-<a href="https://github.com/heikanet/Hawkeye"><img alt="Release" src="https://img.shields.io/badge/python-3.x+-9cf"></a>
+<a href="https://github.com/heikanet/Hawkeye"><img alt="Release" src="https://img.shields.io/badge/python-3.x-9cf"></a>
 <a href="https://github.com/heikanet/Hawkeye"><img alt="Release" src="https://img.shields.io/badge/Hawkeye-2.0-ff69b4"></a>
 <a href="https://github.com/heikanet/Hawkeye"><img alt="Release" src="https://img.shields.io/badge/LICENSE-GPL-important"></a>
 ![GitHub Repo stars](https://img.shields.io/github/stars/heikanet/Hawkeye?color=success)
