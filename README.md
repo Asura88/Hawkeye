@@ -1,12 +1,12 @@
 # Hawkeye
 Hawkeye鹰眼web监测｜[重保小助手]｜网站违规检测｜暗链检测｜重要页面持续监控
 
-<a href="https://github.com/heikanet/Hawkeye"><img alt="Release" src="https://img.shields.io/badge/python-3.x-9cf"></a>
-<a href="https://github.com/heikanet/Hawkeye"><img alt="Release" src="https://img.shields.io/badge/Hawkeye-2.0-ff69b4"></a>
-<a href="https://github.com/heikanet/Hawkeye"><img alt="Release" src="https://img.shields.io/badge/LICENSE-GPL-important"></a>
-![GitHub Repo stars](https://img.shields.io/github/stars/heikanet/Hawkeye?color=success)
-![GitHub forks](https://img.shields.io/github/forks/heikanet/Hawkeye)
-![GitHub all release](https://img.shields.io/github/downloads/heikanet/Hawkeye/total?color=blueviolet)  
+<a href="https://github.com/wgpsec/Hawkeye"><img alt="Release" src="https://img.shields.io/badge/python-3.x-9cf"></a>
+<a href="https://github.com/wgpsec/Hawkeye"><img alt="Release" src="https://img.shields.io/badge/Hawkeye-2.0-ff69b4"></a>
+<a href="https://github.com/wgpsec/Hawkeye"><img alt="Release" src="https://img.shields.io/badge/LICENSE-GPL-important"></a>
+![GitHub Repo stars](https://img.shields.io/github/stars/wgpsec/Hawkeye?color=success)
+![GitHub forks](https://img.shields.io/github/forks/wgpsec/Hawkeye)
+![GitHub all release](https://img.shields.io/github/downloads/wgpsec/Hawkeye/total?color=blueviolet)  
 
 ## 使用指南
 ```
